@@ -43,7 +43,7 @@ class UserController {
 
       await Queue.add(ConfirmMail.key, {
         user: {
-          name: user.name,
+          name: user.first_name,
           email: user.email,
         },
         link: `${process.env.APP_URL}/v1/users/confirm/${token}`,
@@ -53,7 +53,7 @@ class UserController {
         id: user.id,
         email: user.email,
         nickname: user.nickname,
-        name: user.name,
+        first_name: user.first_name,
       });
     } catch (error) {
       return next(error);

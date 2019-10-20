@@ -17,6 +17,7 @@ describe('User', () => {
 
     expect(response.status).toBe(201);
     expect(response.body).toHaveProperty('id');
+    expect(response.body).toHaveProperty('first_name');
     expect(response.body).toHaveProperty('email');
     expect(response.body).toHaveProperty('nickname');
   });
