@@ -1,0 +1,13 @@
+### User by nickname [GET /v1/users/nickname/{nickname}]
+Get a user by nickname
+
++ Parameters
+    + nickname: `johndoe` (string) - The nickname of the user.
+
++ Response 200 (application/json)
+    + Attributes
+        <!-- include(../../responses/userShow.apib) -->
+
++ Response 404 (application/json)
+    + Attributes
+        <!-- include(../../util/errorNotFound.apib) -->
