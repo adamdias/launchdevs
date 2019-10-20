@@ -3,8 +3,11 @@ import SendError from '../services/SendError';
 
 export default async (req, res, next) => {
   try {
+    console.log(req.body);
     const schema = Yup.object().shape({
-      password: Yup.string().min(6),
+      password: Yup.string()
+        .min(6)
+        .required(),
       confirmPassword: Yup.string().when('password', (password, field) => {
         return password ? field.required().oneOf([Yup.ref('password')]) : field;
       }),

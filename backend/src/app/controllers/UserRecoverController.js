@@ -69,7 +69,7 @@ class UserRecoverController {
         throw new SendError('Not Found', 'User not found!', 404);
       }
 
-      const { id, nickname, name } = await user.update({
+      const { id, nickname, first_name } = await user.update({
         recover_pass_token: null,
         password,
       });
@@ -81,7 +81,7 @@ class UserRecoverController {
         },
       });
 
-      return res.json({ id, nickname, name });
+      return res.json({ id, nickname, first_name });
     } catch (error) {
       return next(error);
     }

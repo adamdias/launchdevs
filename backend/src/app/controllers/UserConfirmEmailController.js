@@ -1,36 +1,52 @@
-import jwt from 'jsonwebtoken';
-import { promisify } from 'util';
+import crypto from 'crypto';
+
 import Queue from '../../lib/Queue';
 import ConfirmationResponseMail from '../jobs/ConfirmationResponseMail';
+import SendError from '../services/SendError';
 
 import User from '../models/User';
-import authConfig from '../../config/auth';
 
 class UserConfirmEmailController {
+  async store(req, res, next) {
+    try {
+      const user = await User.findByPk(req.userId);
+
+      if (!user) {
+        throw new SendError('Not Found', 'Not found user!', 404);
+      }
+
+      if (user.confirm_email) {
+        throw new SendError(
+          'Unauthorized',
+          'Have you confirmed your email!',
+          401
+        );
+      }
+
+      const token = crypto.randomBytes(3).toString('hex');
+
+      await user.update({
+        confirm_email_token: token.toLocaleUpperCase(),
+      });
+
+      return res.status(204).json();
+    } catch (error) {
+      return next(error);
+    }
+  }
+
   async update(req, res, next) {
     try {
-      const { token } = req.params;
-
-      const decoded = await promisify(jwt.verify)(
-        token,
-        authConfig.secret
-      ).catch(() => {
-        return res
-          .status(301)
-          .redirect(`${process.env.WEB_URL}/internal-error`);
-      });
+      const { token } = req.body;
 
       const user = await User.findOne({
         where: {
-          email: decoded.email,
-          confirm_email_token: token,
+          confirm_email_token: token.toLocaleUpperCase(),
         },
       });
 
       if (!user) {
-        return res
-          .status(301)
-          .redirect(`${process.env.WEB_URL}/internal-error`);
+        throw new SendError('Not Found', 'Not found user!', 404);
       }
 
       const { name, email } = await user.update({
@@ -43,7 +59,7 @@ class UserConfirmEmailController {
         email,
       });
 
-      return res.status(301).redirect(process.env.WEB_URL);
+      return res.status(204).json();
     } catch (error) {
       return next(error);
     }
