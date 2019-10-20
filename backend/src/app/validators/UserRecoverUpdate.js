@@ -3,7 +3,6 @@ import SendError from '../services/SendError';
 
 export default async (req, res, next) => {
   try {
-    console.log(req.body);
     const schema = Yup.object().shape({
       password: Yup.string()
         .min(6)
