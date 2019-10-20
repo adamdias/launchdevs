@@ -1,18 +1,91 @@
+import crypto from 'crypto';
+
 import User from '../models/User';
+import SendError from '../services/SendError';
+import Queue from '../../lib/Queue';
+import ConfirmMail from '../jobs/ConfirmMail';
 
 class UserController {
-  async store(req, res) {
-    const { email } = req.body;
+  async store(req, res, next) {
+    try {
+      const { email, nickname } = req.body;
 
-    const checkEmail = await User.findOne({ where: { email } });
+      const emailExists = await User.findOne({
+        where: { email },
+      });
 
-    if (checkEmail) {
-      return res.status(400).json({ error: 'Email already Exists!' });
+      if (emailExists) {
+        throw new SendError(
+          'Unauthorized',
+          'Email already exists in another user',
+          401
+        );
+      }
+
+      const nicknameExists = await User.findOne({
+        where: { nickname },
+      });
+
+      if (nicknameExists) {
+        throw new SendError(
+          'Unauthorized',
+          'Nickname already exists in another user',
+          401
+        );
+      }
+
+      const token = crypto.randomBytes(3).toString('hex');
+
+      req.body.confirm_email = false;
+      req.body.confirm_email_token = token.toLocaleUpperCase();
+
+      const user = await User.create(req.body);
+
+      await Queue.add(ConfirmMail.key, {
+        user: {
+          name: user.first_name,
+          email: user.email,
+        },
+        link: `${process.env.APP_URL}/v1/users/confirm/${token}`,
+      });
+
+      return res.status(201).json({
+        id: user.id,
+        email: user.email,
+        nickname: user.nickname,
+        first_name: user.first_name,
+      });
+    } catch (error) {
+      return next(error);
     }
+  }
 
-    const user = await User.create(req.body);
+  async show(req, res, next) {
+    try {
+      const { nickname } = req.params;
 
-    return res.json(user);
+      const user = await User.findOne({
+        where: { nickname },
+        attributes: [
+          'id',
+          'first_name',
+          'last_name',
+          'email',
+          'nickname',
+          'bio',
+          'github',
+          'linkedin',
+        ],
+      });
+
+      if (!user) {
+        throw new SendError('Not Found', 'User not found!', 404);
+      }
+
+      return res.json(user);
+    } catch (error) {
+      return next(error);
+    }
   }
 }
 
