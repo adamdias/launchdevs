@@ -1,40 +1,78 @@
-// import 'dotenv/config';
 import './bootstrap';
-
-import Youch from 'youch';
 import express from 'express';
-import 'express-async-errors';
-
-import routes from './routes';
+import http from 'http';
+import helmet from 'helmet';
+import redis from 'redis';
+import RateLimit from 'express-rate-limit';
+import RateLimitRedis from 'rate-limit-redis';
+import io from 'socket.io';
+import cors from 'cors';
+import path from 'path';
+import routes from './routes/v1';
+import ErrorHandler from './app/middlewares/ErrorHandler';
 
 import './database';
 
 class App {
   constructor() {
-    this.server = express();
-
+    this.app = express();
+    this.server = http.createServer(this.app);
+    this.io = io.listen(this.server);
+    this.connectSocket();
     this.middlewares();
     this.routes();
-    this.exceptionHandler();
+    this.errorMiddlewares();
   }
 
   middlewares() {
-    this.server.use(express.json());
+    this.app.use(cors({ origin: process.env.WEB_URL }));
+    this.app.use(helmet());
+    this.app.use(express.json());
+    this.app.use(
+      '/files',
+      express.static(path.resolve(__dirname, '..', 'tmp', 'uploads'))
+    );
+
+    if (
+      process.env.NODE_ENV !== 'development' &&
+      process.env.NODE_ENV !== 'test'
+    ) {
+      this.app.use(
+        new RateLimit({
+          store: new RateLimitRedis({
+            client: redis.createClient({
+              host: process.env.REDIS_HOST,
+              port: process.env.REDIS_PORT,
+            }),
+          }),
+          windowMs: 1000 * 60 * 10,
+          max: 250,
+        })
+      );
+    }
   }
 
   routes() {
-    this.server.use(routes);
+    this.app.use('/v1', routes);
   }
 
-  exceptionHandler() {
-    this.server.use(async (err, req, res, next) => {
-      if (process.env.NODE_ENV === 'development') {
-        const errors = await new Youch(err, req).toJSON();
+  errorMiddlewares() {
+    this.app.use(ErrorHandler.catchNotFound);
+    this.app.use(ErrorHandler.catchErrors);
+  }
 
-        return res.status(500).json(errors);
-      }
+  connectSocket() {
+    let socketId;
 
-      return res.status(500).json({ error: 'Internal server error' });
+    this.io.on('connection', socket => {
+      socketId = socket.id;
+    });
+
+    this.app.use((req, res, next) => {
+      req.socketId = socketId;
+      req.io = this.io;
+
+      return next();
     });
   }
 }
