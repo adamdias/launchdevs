@@ -24,9 +24,9 @@ E também inicia as tarefas em background do Redis com o comando:
 yarn queue
 ```
 
-## Com docker
+# LaunchDev Diagram ER
+![](https://i.ibb.co/N9gGc96/Launch-Dev-DER.png)
 
-Breve ...
 
 # Migrations
 
@@ -96,6 +96,3 @@ module.exports = {
 Sempre que for preciso reverter uma tabela, execute o comando `yarn migrate:undo` para desfazer a última migration, esse comando vai executar o método down da última migration.
 
 Para reverter uma migration específica, use o comando `yarn migrate:to XXXXXXXXXXXXXX-nome-da-migration.js`, esse comando vai executar o método down da migration passada como argumento.
-
-# LaunchDev Diagram ER
-![](https://i.ibb.co/N9gGc96/Launch-Dev-DER.png)

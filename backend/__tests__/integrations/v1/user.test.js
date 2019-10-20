@@ -80,17 +80,32 @@ describe('User', () => {
     expect(response.status).toBe(400);
   });
 
-  it('should be possible recovery password', async () => {
+  it('should be show a user by nickname', async () => {
     const user = await factory.attrs('User');
 
-    await request(app)
+    const created = await request(app)
       .post('/v1/users')
       .send(user);
 
-    const response = await request(app)
-      .post('/v1/users/recover')
-      .send({ email: user.email });
+    const response = await request(app).get(
+      `/v1/users/nickname/${created.body.nickname}`
+    );
 
-    expect(response.status).toBe(204);
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('id');
+    expect(response.body).toHaveProperty('first_name');
+    expect(response.body).toHaveProperty('last_name');
+    expect(response.body).toHaveProperty('email');
+    expect(response.body).toHaveProperty('nickname');
+    expect(response.body).toHaveProperty('bio');
+    expect(response.body).toHaveProperty('github');
+    expect(response.body).toHaveProperty('linkedin');
+    expect(response.body.password_hash).toBeUndefined();
+  });
+
+  it('should be not found a user by nickname nonexistent', async () => {
+    const response = await request(app).get(`/v1/users/nickname/testing`);
+
+    expect(response.status).toBe(404);
   });
 });

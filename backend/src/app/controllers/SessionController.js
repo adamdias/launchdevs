@@ -27,12 +27,13 @@ class SessionController {
         );
       }
 
-      const { id, name } = user;
+      const { id, first_name, last_name } = user;
 
       return res.json({
         user: {
           id,
-          name,
+          first_name,
+          last_name,
           email,
         },
         token: jwt.sign({ id }, authConfig.secret, {

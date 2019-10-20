@@ -41,7 +41,6 @@ class UserController {
 
       const user = await User.create(req.body);
 
-      // if (process.env.NODE_ENV !== 'test') {
       await Queue.add(ConfirmMail.key, {
         user: {
           name: user.name,
@@ -49,7 +48,6 @@ class UserController {
         },
         link: `${process.env.APP_URL}/v1/users/confirm/${token}`,
       });
-      // }
 
       return res.status(201).json({
         id: user.id,
@@ -57,6 +55,34 @@ class UserController {
         nickname: user.nickname,
         name: user.name,
       });
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  async show(req, res, next) {
+    try {
+      const { nickname } = req.params;
+
+      const user = await User.findOne({
+        where: { nickname },
+        attributes: [
+          'id',
+          'first_name',
+          'last_name',
+          'email',
+          'nickname',
+          'bio',
+          'github',
+          'linkedin',
+        ],
+      });
+
+      if (!user) {
+        throw new SendError('Not Found', 'User not found!', 404);
+      }
+
+      return res.json(user);
     } catch (error) {
       return next(error);
     }
