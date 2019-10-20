@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('tags', {
+    return queryInterface.createTable('ideas_likes', {
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -14,8 +14,15 @@ module.exports = {
         onDelete: 'CASCADE',
         allowNull: false,
       },
-      title: {
-        type: Sequelize.STRING,
+      user_id: {
+        type: Sequelize.UUID,
+        references: { model: 'users', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        allowNull: false,
+      },
+      types: {
+        type: Sequelize.BOOLEAN,
         allowNull: false,
       },
       created_at: {
@@ -30,6 +37,6 @@ module.exports = {
   },
 
   down: queryInterface => {
-    return queryInterface.dropTable('tags');
+    return queryInterface.dropTable('ideas_likes');
   },
 };
