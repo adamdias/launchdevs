@@ -15,7 +15,7 @@
     "migrate:to": "sequelize db:migrate:undo:all --to",
     "debug": "node --inspect-brk -r sucrase/register src/server.js",
     "fake": "snowboard mock doc/documentation.apib",
-    "aglio": "aglio -i doc/documentation.apib --theme-variables default -o doc/index.html",
+    "aglio": "aglio -i doc/index.apib --theme-variables default -o doc/index.html",
     "pretest": "NODE_ENV=test sequelize db:migrate",
     "test": "NODE_ENV=test jest --runInBand --forceExit",
     "posttest": "NODE_ENV=test sequelize db:migrate:undo:all"
