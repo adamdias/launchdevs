@@ -76,10 +76,10 @@ describe('User Recover Password', () => {
       });
 
     expect(response.status).toBe(200);
-    expect(login.status).toBe(200);
     expect(response.body).toHaveProperty('id');
     expect(response.body).toHaveProperty('nickname');
     expect(response.body).toHaveProperty('first_name');
+    expect(login.status).toBe(200);
     expect(login.body).toHaveProperty('token');
     expect(recoverUpdate).toBeNull();
   });
