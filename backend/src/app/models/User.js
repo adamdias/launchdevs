@@ -5,6 +5,11 @@ class User extends Model {
   static init(sequelize) {
     super.init(
       {
+        id: {
+          type: Sequelize.UUID,
+          primaryKey: true,
+          defaultValue: Sequelize.UUIDV4,
+        },
         first_name: Sequelize.STRING,
         last_name: Sequelize.STRING,
         nickname: Sequelize.STRING,
