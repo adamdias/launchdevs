@@ -22,11 +22,15 @@ module.exports = {
         allowNull: false,
       },
       types: {
-        type: Sequelize.ENUM,
+        type: Sequelize.ENUM({
+          values: ['acepted', 'refused', 'pending'],
+        }),
         allowNull: false,
       },
       acepts: {
-        type: Sequelize.ENUM,
+        type: Sequelize.ENUM({
+          values: ['acepted', 'refused', 'pending'],
+        }),
         allowNull: false,
       },
       created_at: {
