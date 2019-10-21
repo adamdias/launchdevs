@@ -42,6 +42,8 @@ export default function SignUp() {
 
       dispatch(signInRequest(email, password));
     } catch (error) {
+      console.log(error.response.data);
+
       toast.error(
         error.response.data.fields
           ? error.response.data.fields[0].message
