@@ -75,6 +75,7 @@ class UserController {
           'bio',
           'github',
           'linkedin',
+          'objective',
         ],
       });
 

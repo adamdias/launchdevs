@@ -101,6 +101,7 @@ describe('User', () => {
     expect(response.body).toHaveProperty('bio');
     expect(response.body).toHaveProperty('github');
     expect(response.body).toHaveProperty('linkedin');
+    expect(response.body).toHaveProperty('objective');
     expect(response.body.password_hash).toBeUndefined();
   });
 
