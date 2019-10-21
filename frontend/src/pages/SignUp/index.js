@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form, Input } from '@rocketseat/unform';
@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import { signInRequest } from '~/store/modules/auth/actions';
 import api from '~/services/api';
 
+import { Button } from '~/components/Form';
 import logo from '~/assets/logo.svg';
 
 const schema = Yup.object().shape({
@@ -27,9 +28,12 @@ const schema = Yup.object().shape({
 
 export default function SignUp() {
   const dispatch = useDispatch();
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   async function handleSubmit(data) {
     try {
+      setButtonLoading(true);
+
       const { first_name, last_name, nickname, email, password } = data;
 
       await api.post('/users', {
@@ -42,6 +46,8 @@ export default function SignUp() {
 
       dispatch(signInRequest(email, password));
     } catch (error) {
+      setButtonLoading(false);
+
       toast.error(
         error.response.data.fields
           ? error.response.data.fields[0].message
@@ -98,7 +104,9 @@ export default function SignUp() {
           placeholder="Confirmar senha"
         />
 
-        <button type="submit">Send</button>
+        <Button type="submit" loading={buttonLoading ? 1 : 0}>
+          Send
+        </Button>
 
         <Link to="/">Already registered?</Link>
       </Form>
