@@ -6,19 +6,19 @@ Primeiramente, certifique-se de ter um arquivo .env na rota raiz do projeto, con
 
 ## Sem docker
 
-Para executar o projeto, preimeiro instale as dependências com o comando:
+Para executar o projeto, instale as dependências com o comando:
 
 ```
 yarn
 ```
 
-E seguida inicia o servidor com o comando:
+Em seguida inicie o servidor com o comando:
 
 ```
 yarn dev
 ```
 
-E também inicia as tarefas em background do Redis com o comando:
+E também inicie as tarefas em background do Redis com o comando:
 
 ```
 yarn queue
