@@ -1,7 +1,10 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
+
+import { signInRequest } from '~/store/modules/auth/actions';
 import api from '~/services/api';
 
 import logo from '~/assets/logo.svg';
@@ -22,6 +25,8 @@ const schema = Yup.object().shape({
 });
 
 export default function SignUp() {
+  const dispatch = useDispatch();
+
   async function handleSubmit({
     first_name,
     last_name,
@@ -29,7 +34,7 @@ export default function SignUp() {
     email,
     password,
   }) {
-    const { data } = await api.post('/users', {
+    await api.post('/users', {
       first_name,
       last_name,
       nickname,
@@ -37,7 +42,7 @@ export default function SignUp() {
       password,
     });
 
-    console.tron.log(data);
+    dispatch(signInRequest(email, password));
   }
 
   return (
