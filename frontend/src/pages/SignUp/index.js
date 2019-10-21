@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form, Input } from '@rocketseat/unform';
+import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
 import { signInRequest } from '~/store/modules/auth/actions';
@@ -27,22 +28,26 @@ const schema = Yup.object().shape({
 export default function SignUp() {
   const dispatch = useDispatch();
 
-  async function handleSubmit({
-    first_name,
-    last_name,
-    nickname,
-    email,
-    password,
-  }) {
-    await api.post('/users', {
-      first_name,
-      last_name,
-      nickname,
-      email,
-      password,
-    });
+  async function handleSubmit(data) {
+    try {
+      const { first_name, last_name, nickname, email, password } = data;
 
-    dispatch(signInRequest(email, password));
+      await api.post('/users', {
+        first_name,
+        last_name,
+        nickname,
+        email,
+        password,
+      });
+
+      dispatch(signInRequest(email, password));
+    } catch (error) {
+      toast.error(
+        error.response.data.fields
+          ? error.response.data.fields[0].message
+          : error.response.data.message
+      );
+    }
   }
 
   return (
