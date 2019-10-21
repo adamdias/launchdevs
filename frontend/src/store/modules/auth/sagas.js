@@ -14,12 +14,6 @@ export function* signIn({ payload }) {
 
   const { token, user } = response.data;
 
-  if (!user.provider) {
-    console.tron.error('Not provider');
-
-    return;
-  }
-
   yield put(signInSuccess(token, user));
 
   history.push('/dashboard');
