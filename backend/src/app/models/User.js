@@ -19,9 +19,10 @@ class User extends Model {
         email: Sequelize.STRING,
         password: Sequelize.VIRTUAL,
         password_hash: Sequelize.STRING,
-        recover_pass_token: Sequelize.TEXT,
+        recover_pass_token: Sequelize.STRING,
         confirm_email: Sequelize.BOOLEAN,
-        confirm_email_token: Sequelize.TEXT,
+        confirm_email_token: Sequelize.STRING,
+        objective: Sequelize.TEXT
       },
       {
         sequelize,
@@ -42,6 +43,8 @@ class User extends Model {
       foreignKey: 'avatar_id',
       as: 'avatar',
     });
+    this.hasMany(models.UserLink);
+    this.hasMany(models.UserSkill);
   }
 
   checkPassword(password) {

@@ -5,8 +5,12 @@ import databaseConfig from '../config/database';
 
 import User from '../app/models/User';
 import File from '../app/models/File';
+import UserLink from '../app/models/UserLink';
+import UserSkill from '../app/models/UserSkill';
+import IdeaInvite from '../app/models/IdeaInvite';
+import IdeaPartner from '../app/models/IdeaPartner';
 
-const models = [File, User];
+const models = [File, User, UserLink, UserSkill, IdeaInvite, IdeaPartner];
 
 class Database {
   constructor() {
