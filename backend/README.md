@@ -25,7 +25,7 @@ yarn queue
 ```
 
 # LaunchDev Diagram ER
-![](https://uploaddeimagens.com.br/images/002/435/406/original/DER.png?1571611544)
+![](https://uploaddeimagens.com.br/images/002/435/552/full/LaunchDev-DER_-_Diagrama_ER.png?1571618489)
 
 
 # Migrations
