@@ -4,6 +4,11 @@ class File extends Model {
   static init(sequelize) {
     super.init(
       {
+        id: {
+          type: Sequelize.UUID,
+          primaryKey: true,
+          defaultValue: Sequelize.UUIDV4,
+        },
         name: Sequelize.STRING,
         path: Sequelize.STRING,
         url: {

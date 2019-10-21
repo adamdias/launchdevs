@@ -1,18 +1,18 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('users', {
+      id: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        defaultValue: Sequelize.UUIDV4,
+        primaryKey: true,
+      },
       avatar_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: { model: 'files', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
         allownull: true,
-      },
-      id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
       },
       first_name: {
         type: Sequelize.STRING,
@@ -49,9 +49,12 @@ module.exports = {
         defaultValue: false,
       },
       confirm_email_token: {
-        type: Sequelize.TEXT,
+        type: Sequelize.STRING,
       },
       recover_pass_token: {
+        type: Sequelize.STRING,
+      },
+      objective: {
         type: Sequelize.TEXT,
       },
       created_at: {

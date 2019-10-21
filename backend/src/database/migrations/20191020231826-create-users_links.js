@@ -1,20 +1,30 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('files', {
+    return queryInterface.createTable('users_links', {
       id: {
         type: Sequelize.UUID,
         allowNull: false,
         defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
       },
-      name: {
+      user_id: {
+        type: Sequelize.UUID,
+        references: { model: 'users', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        allownull: true,
+      },
+      title: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      path: {
+      url: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
+      },
+      description: {
+        type: Sequelize.TEXT,
+        allowNull: false,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -28,6 +38,6 @@ module.exports = {
   },
 
   down: queryInterface => {
-    return queryInterface.dropTable('files');
+    return queryInterface.dropTable('users_links');
   },
 };
