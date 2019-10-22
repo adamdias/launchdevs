@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Form, Input } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
 import { signInRequest } from '~/store/modules/auth/actions';
 import api from '~/services/api';
 
-import { Button } from '~/components/Form';
+import Form, { Button, Input } from '~/components/Form';
 import logo from '~/assets/logo.svg';
 
 const schema = Yup.object().shape({
