@@ -17,13 +17,12 @@ class User extends Model {
         github: Sequelize.STRING,
         linkedin: Sequelize.STRING,
         email: Sequelize.STRING,
-        objective: Sequelize.STRING,
+        objective: Sequelize.TEXT,
         password: Sequelize.VIRTUAL,
         password_hash: Sequelize.STRING,
         recover_pass_token: Sequelize.STRING,
         confirm_email: Sequelize.BOOLEAN,
         confirm_email_token: Sequelize.STRING,
-        objective: Sequelize.TEXT
       },
       {
         sequelize,
