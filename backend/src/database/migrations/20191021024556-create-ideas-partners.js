@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('ideas_invites', {
+    return queryInterface.createTable('ideas_partners', {
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -14,23 +14,11 @@ module.exports = {
         onDelete: 'CASCADE',
         allowNull: false,
       },
-      interested_id: {
+      user_id: {
         type: Sequelize.UUID,
         references: { model: 'users', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
-        allowNull: false,
-      },
-      solicitation: {
-        type: Sequelize.ENUM({
-          values: ['author', 'interested'],
-        }),
-        allowNull: false,
-      },
-      acepts: {
-        type: Sequelize.ENUM({
-          values: ['acepted', 'refused', 'pending'],
-        }),
         allowNull: false,
       },
       created_at: {
@@ -45,6 +33,6 @@ module.exports = {
   },
 
   down: queryInterface => {
-    return queryInterface.dropTable('ideas_invites');
+    return queryInterface.dropTable('ideas_partners');
   },
 };
