@@ -18,7 +18,7 @@ class ErrorHandler {
     }
 
     // use when you need to see the test logs in jest
-    console.log('Error: ', error);
+    // console.log('Error: ', error);
 
     const { name, message, fields } = error;
     const status = error.statusCode || 500;
