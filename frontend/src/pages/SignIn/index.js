@@ -10,7 +10,7 @@ import logo from '~/assets/logo.svg';
 
 const schema = Yup.object().shape({
   email: Yup.string()
-    .email('Email is not valid.')
+    .email('Email is not valid')
     .required(),
   password: Yup.string()
     .min(6, 'password should be at least 6 characters')
