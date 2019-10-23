@@ -23,10 +23,10 @@ class IdeaPartner extends Model {
       foreignKey: 'user_id',
       as: 'user',
     });
-    this.belongsTo(models.Idea, {
-      foreignKey: 'idea_id',
-      as: 'idea',
-    });
+    // this.belongsTo(models.Idea, {
+    //   foreignKey: 'idea_id',
+    //   as: 'idea',
+    // });
   }
 }
 

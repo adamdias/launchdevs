@@ -66,16 +66,16 @@ class UserController {
 
       const user = await User.findOne({
         where: { nickname },
-        attributes: [
-          'id',
-          'first_name',
-          'last_name',
-          'email',
-          'nickname',
-          'bio',
-          'github',
-          'linkedin',
-        ],
+        // attributes: [
+        //   'id',
+        //   'first_name',
+        //   'last_name',
+        //   'email',
+        //   'nickname',
+        //   'bio',
+        //   'github',
+        //   'linkedin',
+        // ],
       });
 
       if (!user) {

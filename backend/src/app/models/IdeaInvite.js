@@ -35,10 +35,10 @@ class IdeaInvite extends Model {
       foreignKey: 'user_id',
       as: 'interested',
     });
-    this.belongsTo(models.Idea, {
-      foreignKey: 'idea_id',
-      as: 'idea',
-    });
+    // this.belongsTo(models.Idea, {
+    //   foreignKey: 'idea_id',
+    //   as: 'idea',
+    // });
   }
 }
 
