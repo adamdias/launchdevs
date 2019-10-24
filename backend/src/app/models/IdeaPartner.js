@@ -21,7 +21,7 @@ class IdeaPartner extends Model {
   static associate(models) {
     this.belongsTo(models.User, {
       foreignKey: 'user_id',
-      as: 'user',
+      as: 'partner',
     });
     // this.belongsTo(models.Idea, {
     //   foreignKey: 'idea_id',

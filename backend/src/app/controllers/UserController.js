@@ -4,35 +4,14 @@ import User from '../models/User';
 import SendError from '../services/SendError';
 import Queue from '../../lib/Queue';
 import ConfirmMail from '../jobs/ConfirmMail';
+import UserExists from '../services/UserExists';
 
 class UserController {
   async store(req, res, next) {
     try {
       const { email, nickname } = req.body;
 
-      const emailExists = await User.findOne({
-        where: { email },
-      });
-
-      if (emailExists) {
-        throw new SendError(
-          'Unauthorized',
-          'Email already exists in another user',
-          401
-        );
-      }
-
-      const nicknameExists = await User.findOne({
-        where: { nickname },
-      });
-
-      if (nicknameExists) {
-        throw new SendError(
-          'Unauthorized',
-          'Nickname already exists in another user',
-          401
-        );
-      }
+      await UserExists(email, nickname);
 
       const token = crypto.randomBytes(3).toString('hex');
 
