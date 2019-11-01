@@ -1,0 +1,21 @@
+### Update a new password [PUT /v1/users/recover/{token}]
+Update a new password when recovery
+
++ Parameters
+    + token: `tokenforrecoverypassword` (string) - The token for recovery pass.
+
++ Request (application/json)
+    + Attributes
+        <!-- include(../../requests/userRecoverUpdate.apib) -->
+
++ Response 200 (application/json)
+    + Attributes
+        <!-- include(../../responses/userRecoverUpdate.apib) -->
+
++ Response 401 (application/json)
+    + Attributes
+        <!-- include(../../util/errorUnauthorized.apib) -->
+
++ Response 404 (application/json)
+    + Attributes
+        <!-- include(../../util/errorNotFound.apib) -->
