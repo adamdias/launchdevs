@@ -7,10 +7,21 @@ import User from '../app/models/User';
 import File from '../app/models/File';
 import UserLink from '../app/models/UserLink';
 import UserSkill from '../app/models/UserSkill';
+import Idea from '../app/models/Idea';
 import IdeaInvite from '../app/models/IdeaInvite';
 import IdeaPartner from '../app/models/IdeaPartner';
+import IdeaCategory from '../app/models/IdeaCategory';
 
-const models = [File, User, UserLink, UserSkill, IdeaInvite, IdeaPartner];
+const models = [
+  File,
+  User,
+  UserLink,
+  UserSkill,
+  Idea,
+  IdeaInvite,
+  IdeaPartner,
+  IdeaCategory,
+];
 
 class Database {
   constructor() {
