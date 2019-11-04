@@ -19,7 +19,10 @@ const schema = Yup.object().shape({
     .required('Senha é obrigatória'),
   confirm_password: Yup.string()
     .required('Confirmar senha é obrigatório')
-    .oneOf([Yup.ref('password')], 'Confirmar senha deve ser igual a senha'),
+    .oneOf(
+      [Yup.ref('password'), null],
+      'A senha deve ser a mesma do campo anterior'
+    ),
   first_name: Yup.string().required('Primeiro Nome é obrigatório'),
   last_name: Yup.string().required('Último nome é obrigatório'),
   nickname: Yup.string().required('Nickname é obrigatório'),
