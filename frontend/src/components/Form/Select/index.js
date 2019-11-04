@@ -9,8 +9,7 @@ const StyledSelect = styled(SelectForm)`
   label {
   }
 `;
-const options = [{ id: '', title: '' }];
-export default function Select({ label, name, ...props }) {
+export default function Select({ label, name, options = [], ...props }) {
   return (
     <StyledSelect label={label} name={name} options={options} {...props} />
   );
