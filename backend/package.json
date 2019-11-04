@@ -16,7 +16,7 @@
     "debug": "node --inspect-brk -r sucrase/register src/server.js",
     "fake": "snowboard mock docs/api/index.apib",
     "aglio": "aglio -i docs/api/index.apib --theme-variables default -o docs/index.html",
-    "pretest": "NODE_ENV=test sequelize db:migrate",
+    "pretest": "NODE_ENV=test sequelize db:migrate && NODE_ENV=test sequelize db:seed:all",
     "test": "NODE_ENV=test jest --runInBand --forceExit",
     "posttest": "NODE_ENV=test sequelize db:migrate:undo:all"
   },
