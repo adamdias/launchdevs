@@ -28,7 +28,7 @@ module.exports = {
       },
       category_id: {
         type: Sequelize.UUID,
-        references: { model: 'categories', key: 'id' },
+        references: { model: 'idea_categories', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
         allownull: false,
