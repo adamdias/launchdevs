@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Form, Input } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
 import { signInRequest } from '~/store/modules/auth/actions';
 import api from '~/services/api';
 
-import { Button } from '~/components/Form';
+import Form, { Button, Input } from '~/components/Form';
 import logo from '~/assets/logo.svg';
 
 const schema = Yup.object().shape({
@@ -20,7 +19,10 @@ const schema = Yup.object().shape({
     .required('Senha é obrigatória'),
   confirm_password: Yup.string()
     .required('Confirmar senha é obrigatório')
-    .oneOf([Yup.ref('password')], 'Confirmar senha deve ser igual a senha'),
+    .oneOf(
+      [Yup.ref('password'), null],
+      'A senha deve ser a mesma do campo anterior'
+    ),
   first_name: Yup.string().required('Primeiro Nome é obrigatório'),
   last_name: Yup.string().required('Último nome é obrigatório'),
   nickname: Yup.string().required('Nickname é obrigatório'),

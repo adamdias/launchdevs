@@ -1,22 +1,58 @@
 import { takeLatest, call, put, all } from 'redux-saga/effects';
-import { SIGN_IN_REQUEST, signInSuccess } from './actions';
+import { toast } from 'react-toastify';
+import {
+  SIGN_IN_REQUEST,
+  SIGN_UP_REQUEST,
+  signInRequest,
+  signInSuccess,
+  signFailure,
+} from './actions';
 
 import api from '~/services/api';
 import history from '~/services/history';
 
 export function* signIn({ payload }) {
-  const { email, password } = payload;
+  try {
+    const { email, password } = payload;
 
-  const response = yield call(api.post, '/sessions', {
-    email,
-    password,
-  });
+    const response = yield call(api.post, '/sessions', {
+      email,
+      password,
+    });
 
-  const { token, user } = response.data;
+    const { token, user } = response.data;
 
-  yield put(signInSuccess(token, user));
+    yield put(signInSuccess(token, user));
 
-  history.push('/dashboard');
+    history.push('/dashboard');
+  } catch (err) {
+    toast.error('Falha na autenticaçao, verifique seus dados!');
+  }
 }
 
-export default all([takeLatest(SIGN_IN_REQUEST, signIn)]);
+export function* signUp({ payload }) {
+  try {
+    const { first_name, last_name, nickname, email, password } = payload;
+
+    yield call(api.post, '/users', {
+      first_name,
+      last_name,
+      nickname,
+      email,
+      password,
+    });
+
+    yield put(signInRequest(email, password));
+
+    history.push('/dashboard');
+  } catch (err) {
+    toast.error('Falha no cadastro, verifique seus dados!');
+
+    yield put(signFailure());
+  }
+}
+
+export default all([
+  takeLatest(SIGN_IN_REQUEST, signIn),
+  takeLatest(SIGN_UP_REQUEST, signUp),
+]);
