@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import {
   SIGN_IN_REQUEST,
   SIGN_UP_REQUEST,
+  signInRequest,
   signInSuccess,
   signFailure,
 } from './actions';
@@ -41,7 +42,9 @@ export function* signUp({ payload }) {
       password,
     });
 
-    history.push('/');
+    yield put(signInRequest(email, password));
+
+    history.push('/dashboard');
   } catch (err) {
     toast.error('Falha no cadastro, verifique seus dados!');
 
